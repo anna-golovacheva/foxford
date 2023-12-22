@@ -1,0 +1,5 @@
+fastapi[all]
+sqlalchemy
+alembic
+fastapi-users[sqlalchemy]
+asyncpg

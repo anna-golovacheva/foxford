@@ -8,8 +8,8 @@ from sqlalchemy import pool
 from alembic import context
 
 from src.config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
-from src.auth.models import Base, Role, User
-from src.operations.models import Operation
+from src.auth.models import Base, User
+from src.tickets.models import Ticket, Response
 
 # from src.auth.models import metadata as metadata_auth
 # from src.operations.models import metadata as metadata_operations
@@ -18,7 +18,6 @@ from src.operations.models import Operation
 # access to the values within the .ini file in use.
 config = context.config
 
-sys.path.append(os.path.join(sys.path[0], 'src'))
 
 section = config.config_ini_section
 config.set_section_option(section, 'DB_USER', DB_USER)

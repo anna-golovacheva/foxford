@@ -11,26 +11,14 @@ from src.auth.models import User
 from src.auth.manager import get_user_manager
 from src.auth.config import fastapi_users
 
-from src.operations.router import router as router_operation
+from src.tickets.router import router as router_ticket
 
 
 app = FastAPI(
     title='Ticket Project'
 )
 
-# fake_users = [
-#     {'id': 1, 'role': 'admin', 'name': 'Jack', 'degree': [
-#         {'id': 1, 'created_at': '2020-01-01T00:00:00', 'type_degree': 'expert'}
-#         ]},
-#     {'id': 2, 'role': 'user', 'name': 'Bill'},
-#     {'id': 3, 'role': 'user', 'name': 'Josh'}
-# ]
 
-# fake_trades = [
-#     {'id': 1, 'user_id': 1, 'currency': 'euro', 'side': 'abc', 'price': 1000},
-#     {'id': 2, 'user_id': 3, 'currency': 'euro', 'side': 'abc', 'price': 2000},
-#     {'id': 3, 'user_id': 3, 'currency': 'euro', 'side': 'abc', 'price': 3000},
-# ]
 
 # class DegreeType(Enum):
 #     newbie = 'newbie'
@@ -108,7 +96,7 @@ app.include_router(
 #     return "Hello, Puka"
 
 
-app.include_router(router_operation)
+app.include_router(router_ticket)
 
 origins = [
     "http://localhost:8000",
