@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - $PORT:$PORT
+    environment:
+      POSTGRES_URL: $DATABASE_URL
+      PORT: $PORT

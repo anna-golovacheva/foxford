@@ -1,15 +1,19 @@
+import telebot
+from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
 
 
+url = BASE_URL + BOT_SECRET
 
+bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
+bot.remove_webhook()
+bot.set_webhook(url=url)
 
-# @dp.message(CommandStart())
-# async def process_start_command(message: Message):
-#     print('!! mesmes')
-#     await message.answer('Привет! С помощью этого бота вы можете'\
-#                          'отправить сообщение-тикет. Просто напишите'\
-#                          'сообщение.')
-
-
+@bot.message_handler(commands=['start'])
+def start(m):
+    message = 'Привет! С помощью этого бота вы можете'\
+              'отправить сообщение-тикет. Просто напишите'\
+              'сообщение.'
+    bot.send_message(m.chat.id, message)
 
 
 # @dp.message(Command(commands='help'))

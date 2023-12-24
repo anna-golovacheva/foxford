@@ -1,14 +1,20 @@
-from sqlalchemy.dialects.postgresql import insert
+from fastapi import APIRouter, Request
+import telebot
+from src.config import BOT_SECRET
+from src.bot.tg_utils import bot
+router = APIRouter(
+    prefix='/ticket',
+    tags=['Ticket']
+)
 
+@router.post("/"+BOT_SECRET)
+async def webhook(request: Request):
+    chunks = []
+    async for chunk in request.stream():
+        chunks.append(chunk)
 
-# insert_statement = insert(User).values(
-#         tg_id=message.from_user.id,
-#         username=message.from_user.username,
-#         hashed_password='123123'
-#         )
-#     do_nothing_stmt = insert_statement.on_conflict_do_nothing(index_elements=['tg_id'])
-#     # db.query(table).get("id")
-#     async with async_session_maker() as session:
-#         print(">>> from tg file >>   ", session)
-#         await session.execute(do_nothing_stmt)
-#         await session.commit()
+    # Combine the chunks and decode the content
+    update = telebot.types.Update.de_json(b"".join(chunks).decode('utf-8'))
+    print(update)
+    bot.process_new_updates([update])
+    return "ok ok ok"

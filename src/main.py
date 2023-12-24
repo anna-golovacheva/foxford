@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from enum import Enum
 from typing import Optional
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel, Field
@@ -14,37 +14,16 @@ from src.auth.config import fastapi_users
 
 from src.tickets.router import router as router_ticket
 
-import telebot
-from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
-
 
 app = FastAPI(
     title='Ticket Project'
 )
 
-url = BASE_URL + BOT_SECRET
-
-bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
-bot.remove_webhook()
-bot.set_webhook(url=url)
 
 
-@app.post("/"+BOT_SECRET)
-async def webhook(request: Request):
-    chunks = []
-    async for chunk in request.stream():
-        chunks.append(chunk)
-
-    # Combine the chunks and decode the content
-    update = telebot.types.Update.de_json(b"".join(chunks).decode('utf-8'))
-    print(update)
-    bot.process_new_updates([update])
-    return "ok ok ok"
 
 
-@bot.message_handler(commands=['start'])
-def start(m):
-    bot.send_message(m.chat.id, 'hehehello')
+
 
 
 app.include_router(
