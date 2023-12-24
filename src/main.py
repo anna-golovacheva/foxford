@@ -30,8 +30,13 @@ bot.set_webhook(url=url)
 
 
 @app.post("/"+BOT_SECRET)
-def webhook(request: Request):
-    update = telebot.types.Update.de_json(request.stream().decode('utf-8'))
+async def webhook(request: Request):
+    chunks = []
+    async for chunk in request.stream():
+        chunks.append(chunk)
+
+    # Combine the chunks and decode the content
+    update = telebot.types.Update.de_json(b"".join(chunks).decode('utf-8'))
     print(update)
     bot.process_new_updates([update])
     return "ok ok ok"
