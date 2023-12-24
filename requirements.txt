@@ -1,6 +1,6 @@
 fastapi[all]
 databases
-sqlalchemy
+sqlalchemy<1.4.0
 alembic
 fastapi-users[sqlalchemy]
 asyncpg
