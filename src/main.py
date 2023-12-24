@@ -13,18 +13,12 @@ from src.auth.manager import get_user_manager
 from src.auth.config import fastapi_users
 
 from src.tickets.router import router as router_ticket
+from src.bot.router import router as router_bot
 
 
 app = FastAPI(
     title='Ticket Project'
 )
-
-
-
-
-
-
-
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
@@ -39,6 +33,8 @@ app.include_router(
 )
 
 app.include_router(router_ticket)
+
+app.include_router(router_bot)
 
 
 origins = [
