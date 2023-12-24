@@ -44,7 +44,7 @@ async def webhook(request: Request):
 
 @bot.message_handler(commands=['start'])
 def start(m):
-    bot.send_message(m.chat_id, 'hehehello')
+    bot.send_message(m.chat.id, 'hehehello')
 
 
 app.include_router(
