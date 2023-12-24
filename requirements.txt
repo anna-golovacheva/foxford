@@ -1,5 +1,5 @@
 fastapi[all]
-sqlalchemy
+sqlalchemy=1.3.23
 alembic
 fastapi-users[sqlalchemy]
 asyncpg
