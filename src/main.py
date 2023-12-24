@@ -1,7 +1,8 @@
+import os
 from datetime import datetime
 from enum import Enum
 from typing import Optional
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel, Field
@@ -13,64 +14,32 @@ from src.auth.config import fastapi_users
 
 from src.tickets.router import router as router_ticket
 
+import telebot
+from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
+
 
 app = FastAPI(
     title='Ticket Project'
 )
 
+url = BASE_URL + BOT_SECRET
+
+bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
+bot.remove_webhook()
+bot.set_webhook(url=url)
 
 
-# class DegreeType(Enum):
-#     newbie = 'newbie'
-#     expert = 'expert'
-
-# class Degree(BaseModel):
-#     id: int
-#     created_at: datetime
-#     type_degree: DegreeType
-
-# class User(BaseModel):
-#     id: int
-#     role: str
-#     name: str
-#     degree: Optional[list[Degree]] = []
-
-# @app.get('/users/{user_id}', response_model=list[User])
-# def get_user(user_id: int):
-#     return [user for user in fake_users if user.get('id') == user_id]
+@app.post("/"+BOT_SECRET)
+def webhook():
+    update = telebot.types.Update.de_json(Request.stream().decode('utf-8'))
+    print(update)
+    bot.process_new_updates([update])
+    return "ok ok ok"
 
 
-# @app.get('/trades')
-# def get_trades(limit: int = 1, offset: int = 0):
-#     return fake_trades[offset:][:limit]
-
-
-# dake_users = [
-#     {'id': 1, 'role': 'admin', 'name': 'Jack'},
-#     {'id': 2, 'role': 'user', 'name': 'Bill'},
-#     {'id': 3, 'role': 'user', 'name': 'Josh'}
-# ]
-
-# @app.post('/users/{user_id}')
-# def change_user_name(user_id: int, new_name: str):
-#     current_user = list(filter(lambda x: x.get('id') == user_id, dake_users))[0]
-#     current_user['name'] = new_name
-#     return {'status': 200, 'data': current_user}
-
-# class Trade(BaseModel):
-#     id: int
-#     user_id: int
-#     currency: str = Field(max_length=5)
-#     side: str
-#     price: float = Field(ge=0)
-#     amount: float
-
-
-# @app.post('/trades')
-# def add_trades(trades: list[Trade]):
-#     fake_trades.extend(trades)
-#     return {'status': 200, 'data': fake_trades}
-
+@bot.message_handler(commands=['start'])
+def start(m):
+    bot.send_message(m.chat_id, 'hehehello')
 
 
 app.include_router(
@@ -85,21 +54,11 @@ app.include_router(
     tags=["Auth"],
 )
 
-# current_active_user = fastapi_users.current_user(active=True)
-
-# @app.get("/protected-route")
-# def protected_route(user: User = Depends(current_active_user)):
-#     return f"Hello, {user.username}"
-
-# @app.get("/unprotected-route")
-# def protected_route():
-#     return "Hello, Puka"
-
-
 app.include_router(router_ticket)
 
+
 origins = [
-    "http://localhost:8000",
+   ['*'],
 ]
 
 app.add_middleware(
@@ -110,3 +69,7 @@ app.add_middleware(
     allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", "Access-Control-Allow-Origin",
                    "Authorization"],
 )
+
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))

@@ -121,6 +121,7 @@ async def update_ticket_status(
     ):
 
     try:
+        print(">>> from router file >>   ", session)
         query = update(Ticket).filter(Ticket.id == ticket_id).\
                                values({'status': status.value}). \
                                returning(Ticket.id, Ticket.status)

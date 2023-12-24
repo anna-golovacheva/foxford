@@ -32,6 +32,6 @@ class User(SQLAlchemyBaseUserTable[int], Base):
             String(length=20), unique=True, index=True, nullable=False
         )
     registered_at: Mapped[timestamp] = mapped_column(server_default=func.now())
-    tg_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    tg_id: Mapped[int] = mapped_column(Integer, nullable=True, index=True, unique=True)
     # ticket: Mapped[List["Ticket"]] = relationship("Ticket", back_populates="user")
     # ticket: Mapped[List["Ticket"]] = relationship("Ticket", back_populates="employees")
