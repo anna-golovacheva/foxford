@@ -4,19 +4,6 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-
-# class OperationCreate(BaseModel):
-#     quantity: str
-#     figi: str
-#     instrument_type: str
-#     date: datetime.datetime
-#     type: str
-
-#     class Config:
-#         json_encoders = {
-#             datetime.datetime: lambda v: v.isoformat(),
-#         }
-
 class StatusType(Enum):
     open = 'open'
     in_progress = 'in_progress'
