@@ -1,17 +1,17 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11
+FROM python:3.11.1
 
-# Set the working directory to /app
-WORKDIR /app
+WORKDIR /code
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+ENV PYTHONDONTWRITEBYTECODE 1
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+ENV PYTHONUNBUFFERED=1
 
-# Define environment variables
-ENV PORT=8000
+RUN apt-get update && apt-get install -y postgresql-contrib && rm -rf /var/lib/apt/lists/*
 
-# Run migrations and start the FastAPI application
-CMD ["scripts/run_prod.sh"]
+RUN pip install --upgrade pip
+
+COPY requirements.txt /code/
+
+RUN pip install -r requirements.txt
+
+COPY . /code/

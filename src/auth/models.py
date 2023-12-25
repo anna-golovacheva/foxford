@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String, Boolean, MetaData, func, Column, DateTim
 from src.database import Base
 
 
-class User(SQLAlchemyBaseUserTable[int], Base):
+class User(Base, SQLAlchemyBaseUserTable[int]):
     id = Column(Integer, primary_key=True)
     email = Column(String(length=320), unique=True, index=True, nullable=True)
     hashed_password = Column(String(length=1024), nullable=False)

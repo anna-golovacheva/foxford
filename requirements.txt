@@ -1,6 +1,6 @@
 fastapi[all]
 psycopg2-binary
-databases
+# databases
 sqlalchemy
 alembic
 fastapi-users[sqlalchemy]

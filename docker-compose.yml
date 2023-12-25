@@ -1,11 +1,36 @@
-version: "3.8"
+version: '3.7'
 
 services:
+
   app:
     build:
       context: .
+      dockerfile: Dockerfile
+    container_name: fastapp
+    volumes:
+      - .:/code
+    command: ./scripts/run_dev.sh
+    env_file:
+      - .env
+    restart: unless-stopped
     ports:
-      - $PORT:$PORT
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.5
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
     environment:
-      POSTGRES_URL: $DATABASE_URL
-      PORT: $PORT
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    restart: unless-stopped
+
+volumes:
+  pg_data:
