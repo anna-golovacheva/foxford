@@ -1,6 +1,8 @@
 import telebot
+from sqlalchemy import select, insert
 from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
 from src.user.models import User
+from src.database import get_async_session
 
 url = BASE_URL + BOT_SECRET
 
@@ -9,21 +11,28 @@ bot.remove_webhook()
 bot.set_webhook(url=url)
 
 
-from sqlalchemy.ext.asyncio import AsyncSession
-from src.database import get_async_session
+
 
 
 @bot.message_handler(commands=['start'])
-def start(msg):
+async def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
+    async with get_async_session() as session:
+        stmt = insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+        stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
 
-    session: AsyncSession = get_async_session()
-    start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
-    if not start_user:
-        start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
-        session.add(start_user)
+    # query = select(operation).where(operation.c.type == operation_type)
+        result = session.execute(stmt)
+        print(result)
+        reply_message += str(result)
+        # a1 = result.scalars().first()
+        session.commit()
+    # start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
+    # if not start_user:
+        # start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+        # session.add(start_user)
     bot.send_message(msg.chat.id, reply_message)
 
 
