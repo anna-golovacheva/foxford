@@ -19,7 +19,7 @@ class Ticket(Base):
 
     clients = relationship("User", foreign_keys=[client_id])
     employees = relationship("User", foreign_keys=[employee_id])
-    tickets = relationship("Response", back_populates="ticket")
+    tickets = relationship("Response", back_populates="tickets")
 
 
 class Response(Base):
@@ -30,4 +30,4 @@ class Response(Base):
     created_at = Column(DateTime, server_default=func.now())
     message = Column(String())
 
-    ticket = relationship("Ticket", back_populates="responses")
+    tickets = relationship("Ticket")
