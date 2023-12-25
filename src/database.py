@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 
-DATABASE_URL = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
+DATABASE_URL = os.environ.get('DATABASE_URL').replace("://", "ql+asyncpg://", 1)
 
 mapper_registry = registry()
 Base = mapper_registry.generate_base()
