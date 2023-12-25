@@ -12,12 +12,12 @@ class UserRead(schemas.BaseUser[int]):
     is_employee: bool = False
     tg_id: int
 
-    if schemas.PYDANTIC_V2:  # pragma: no cover
-        model_config = schemas.ConfigDict(from_attributes=True)  # type: ignore
-    else:  # pragma: no cover
+    # if schemas.PYDANTIC_V2:  # pragma: no cover
+    #     model_config = schemas.ConfigDict(from_attributes=True)  # type: ignore
+    # else:  # pragma: no cover
 
-        class Config:
-            orm_mode = True
+    class Config:
+        orm_mode = True
 
 
 class UserCreate(schemas.BaseUserCreate):
