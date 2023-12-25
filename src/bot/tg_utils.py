@@ -20,7 +20,7 @@ async def start(msg):
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
     async with get_async_session() as session:
-        stmt = insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+        stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
         stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
 
     # query = select(operation).where(operation.c.type == operation_type)
