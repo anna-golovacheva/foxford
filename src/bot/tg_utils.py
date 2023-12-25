@@ -26,7 +26,7 @@ def start(msg):
     # stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
     print(stmt)
     session = get_sync_session()
-    start_user = session.query(User).filter(tg_id=msg.from_user.id).first()
+    start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
     print(start_user)
     if not start_user:
         result = session.execute(stmt)
