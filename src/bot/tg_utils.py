@@ -21,7 +21,7 @@ def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
-    stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+    stmt = insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
     stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
     session = get_session()
     result = session.execute()
