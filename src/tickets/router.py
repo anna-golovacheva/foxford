@@ -157,15 +157,11 @@ async def update_emp(
         await session.commit()
         values = result.fetchall()[0]
         res = dict(zip(['id', 'status'], values))
-        return TicketUpdateResponse(
-            status='success',
-            data=res,
-            details=None
-            )
+        return {"status": 'success',
+            "data": res,
+            "details": None}
+
     except Exception as e:
-        return TicketUpdateResponse(
-            status='error',
-            data=None,
-            details=str(e)
-            )
-    
+        return {"status": 'error',
+            "data": None,
+            "details": str(e)}
