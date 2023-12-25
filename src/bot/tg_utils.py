@@ -1,6 +1,6 @@
 import telebot
 from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
-
+from src.user.models import User
 
 url = BASE_URL + BOT_SECRET
 
@@ -8,12 +8,23 @@ bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 bot.remove_webhook()
 bot.set_webhook(url=url)
 
+
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.database import get_async_session
+
+
 @bot.message_handler(commands=['start'])
-def start(m):
-    message = 'Привет! С помощью этого бота вы можете'\
-              'отправить сообщение-тикет. Просто напишите'\
+def start(msg):
+    reply_message = 'Привет! С помощью этого бота вы можете '\
+              'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
-    bot.send_message(m.chat.id, message)
+
+    session: AsyncSession = get_async_session()
+    start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
+    if not start_user:
+        start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+        session.add(start_user)
+    bot.send_message(msg.chat.id, reply_message)
 
 
 # @dp.message(Command(commands='help'))

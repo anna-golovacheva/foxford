@@ -14,8 +14,6 @@ async def webhook(request: Request):
     async for chunk in request.stream():
         chunks.append(chunk)
 
-    # Combine the chunks and decode the content
     update = telebot.types.Update.de_json(b"".join(chunks).decode('utf-8'))
-    print(update)
     bot.process_new_updates([update])
     return "ok ok ok"
