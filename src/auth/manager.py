@@ -40,6 +40,10 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         if existing_user is not None:
             raise exceptions.UserAlreadyExists()
 
+        tg_user = await self.user_db.get(tg_id=user_create.tg_id)
+        if tg_user is not None:
+            raise exceptions.UserAlreadyExists()
+
         user_dict = (
             user_create.create_update_dict()
             if safe

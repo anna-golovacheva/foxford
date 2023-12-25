@@ -139,29 +139,3 @@ async def update_ticket_status(
             data=None,
             details=str(e)
             )
-
-
-@router.patch('/{ticket_id}/emp-update',
-              dependencies=[Depends(current_active_user)])
-async def update_emp(
-    ticket_id: int,
-    emp: int,
-    session: AsyncSession = Depends(get_async_session)
-    ):
-
-    try:
-        query = update(Ticket).filter(Ticket.id == ticket_id).\
-                               values({'employee_id': emp}). \
-                               returning(Ticket.id, Ticket.employee_id)
-        result = await session.execute(query)
-        await session.commit()
-        values = result.fetchall()[0]
-        res = dict(zip(['id', 'status'], values))
-        return {"status": 'success',
-            "data": res,
-            "details": None}
-
-    except Exception as e:
-        return {"status": 'error',
-            "data": None,
-            "details": str(e)}
