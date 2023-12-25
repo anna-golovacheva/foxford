@@ -56,7 +56,7 @@ def create_ticket(msg):
             stmt = Insert(Ticket).values(
                 client_id=user.id,
                 status=str(StatusType.open.name),
-                employee_id=GENERAL_EMPLOYEE_ID,
+                employee_id=int(GENERAL_EMPLOYEE_ID),
                 message=msg.text
                 )
             message = 'Тикет открыт'
