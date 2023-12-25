@@ -16,8 +16,8 @@ class UserRead(schemas.BaseUser[int]):
         model_config = schemas.ConfigDict(from_attributes=True)  # type: ignore
     else:  # pragma: no cover
 
-    class Config:
-        orm_mode = True
+        class Config:
+            orm_mode = True
 
 
 class UserCreate(schemas.BaseUserCreate):
