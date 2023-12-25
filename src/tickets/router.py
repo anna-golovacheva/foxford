@@ -80,6 +80,7 @@ async def get_ticket(
         query = select(Ticket).where(Ticket.id == ticket_id)
         result = await session.execute(query)
         ticket_result = result.first()
+        print(ticket_result)
         if ticket_result:
             ticket_item = ticket_result[0]
             ticket = TicketRetrieve(
