@@ -1,12 +1,6 @@
-from typing import List
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import JSON, Integer, String, Boolean, ForeignKey, MetaData, func, Column, DateTime
+from sqlalchemy import Integer, String, Boolean, MetaData, func, Column, DateTime
 from src.database import Base
-from src.config import timestamp
-# import src.operations.models as m
-
-# Tickets = m.Ticket
 
 
 class User(SQLAlchemyBaseUserTable[int], Base):
@@ -20,5 +14,3 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     username = Column(String(length=20), unique=True, index=True, nullable=False)
     registered_at = Column(DateTime, server_default=func.now())
     tg_id = Column(Integer, nullable=True, index=True, unique=True)
-    # ticket: Mapped[List["Ticket"]] = relationship("Ticket", back_populates="user")
-    # ticket: Mapped[List["Ticket"]] = relationship("Ticket", back_populates="employees")

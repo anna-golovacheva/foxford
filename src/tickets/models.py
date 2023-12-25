@@ -1,9 +1,7 @@
-from typing import List
-from sqlalchemy import JSON, ForeignKey, Integer, MetaData, String, func, Column, DateTime
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import ForeignKey, Integer, String, func, Column, DateTime
+from sqlalchemy.orm import relationship
 from src.auth.models import User
 from src.database import Base
-from src.config import timestamp
 
 
 class Ticket(Base):
