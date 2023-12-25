@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.database import get_async_session
 from src.tickets.models import Ticket
 from src.tickets.schemas import TicketListResponse, TicketRetrieve, \
-    TicketRetrieveResponse, TicketUpdate, TicketUpdateResponse
+    TicketRetrieveResponse, TicketUpdateResponse
 from src.auth.config import fastapi_users
 from src.tickets.schemas import StatusType
 from src.tickets.config import SORTING
@@ -80,7 +80,6 @@ async def get_ticket(
         query = select(Ticket).where(Ticket.id == ticket_id)
         result = await session.execute(query)
         ticket_result = result.first()
-        print(ticket_result)
         if ticket_result:
             ticket_item = ticket_result[0]
             ticket = TicketRetrieve(
@@ -122,15 +121,12 @@ async def update_ticket_status(
     ):
 
     try:
-        print(">>> from router file >>   ", session)
         query = update(Ticket).filter(Ticket.id == ticket_id).\
                                values({'status': status.value}). \
                                returning(Ticket.id, Ticket.status)
-        print(query)
         result = await session.execute(query)
         await session.commit()
         values = result.fetchall()[0]
-        print(values)
         res = dict(zip(['id', 'status'], values))
         return TicketUpdateResponse(
             status='success',

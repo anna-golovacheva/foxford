@@ -12,10 +12,6 @@ class UserRead(schemas.BaseUser[int]):
     is_employee: bool = False
     tg_id: int
 
-    # if schemas.PYDANTIC_V2:  # pragma: no cover
-    #     model_config = schemas.ConfigDict(from_attributes=True)  # type: ignore
-    # else:  # pragma: no cover
-
     class Config:
         orm_mode = True
         from_attributes = True
@@ -30,7 +26,3 @@ class UserCreate(schemas.BaseUserCreate):
     is_verified: Optional[bool] = False
     is_employee: bool = False
     tg_id: int
-
-
-# class UserUpdate(schemas.BaseUserUpdate):
-#     pass

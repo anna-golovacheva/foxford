@@ -1,10 +1,10 @@
 from src.database import Base
-from sqlalchemy import ForeignKey, Integer, String, func, Column, DateTime, Boolean
+from sqlalchemy import Integer, String, func, Column, DateTime, Boolean
 
 class User(Base):
     __tablename__ = "user"
     __table_args__ = {'extend_existing': True}
-    
+
     id = Column(Integer, primary_key=True)
     email = Column(String(length=320), unique=True, index=True, nullable=True)
     hashed_password = Column(String(length=1024), nullable=False)

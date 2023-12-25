@@ -1,15 +1,10 @@
-import os
-from datetime import datetime
-from enum import Enum
-from typing import Optional
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from pydantic import BaseModel, Field
 from src.auth.config import auth_backend
 from src.auth.schemas import UserRead, UserCreate
-from src.auth.models import User
-from src.auth.manager import get_user_manager
+# from src.auth.models import User
+# from src.auth.manager import get_user_manager
 from src.auth.config import fastapi_users
 
 from src.tickets.router import router as router_ticket

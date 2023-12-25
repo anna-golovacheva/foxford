@@ -8,7 +8,8 @@ router = APIRouter(
     tags=['Telegram']
 )
 
-@router.post("/"+BOT_SECRET)
+
+@router.post("/" + BOT_SECRET)
 async def webhook(request: Request):
     chunks = []
     async for chunk in request.stream():
@@ -16,4 +17,4 @@ async def webhook(request: Request):
 
     update = telebot.types.Update.de_json(b"".join(chunks).decode('utf-8'))
     bot.process_new_updates([update])
-    return "ok ok ok"
+    return {"status": "ok"}

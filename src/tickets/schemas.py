@@ -9,6 +9,7 @@ class StatusType(Enum):
     in_progress = 'in_progress'
     closed = 'closed'
 
+
 class Status(BaseModel):
     status: StatusType
 
@@ -44,3 +45,4 @@ class TicketUpdateResponse(BaseModel):
     status: str
     data: Optional[TicketUpdate]
     details: Optional[str]
+    

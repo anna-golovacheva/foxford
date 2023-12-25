@@ -1,5 +1,4 @@
 import telebot
-from sqlalchemy import select, insert
 from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL, GENERAL_EMPLOYEE_ID, DEFAULT_PASS
 from src.user.models import User
 from src.tickets.models import Ticket
