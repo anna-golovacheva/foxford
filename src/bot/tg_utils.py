@@ -19,8 +19,9 @@ async def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
+    stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+
     async with get_async_session() as session:
-        stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
         stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
 
     # query = select(operation).where(operation.c.type == operation_type)
@@ -33,7 +34,7 @@ async def start(msg):
     # if not start_user:
         # start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
         # session.add(start_user)
-    bot.send_message(msg.chat.id, reply_message)
+    await bot.send_message(msg.chat.id, reply_message)
 
 
 # @dp.message(Command(commands='help'))
