@@ -130,7 +130,7 @@ async def update_ticket_status(
         result = await session.execute(query)
         print(result.fetchall())
         await session.commit()
-        values = list(result.fetchall())[0]
+        values = result.fetchall()[0]
         res = dict(zip(['id', 'status'], values))
         return TicketUpdateResponse(
             status='success',
