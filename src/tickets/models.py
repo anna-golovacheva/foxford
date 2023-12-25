@@ -15,8 +15,8 @@ class Ticket(Base):
     updated_at = Column(DateTime, server_default=func.now())
     message = Column(String())
 
-    clients = relationship("User", foreign_keys=[client_id])
-    employees = relationship("User", foreign_keys=[employee_id])
+    clients = relationship("src.user.models.User", foreign_keys=[client_id])
+    employees = relationship("src.user.models.User", foreign_keys=[employee_id])
     tickets = relationship("Response", back_populates="tickets")
 
 
