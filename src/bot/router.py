@@ -2,9 +2,11 @@ from fastapi import APIRouter, Request
 import telebot
 from src.config import BOT_SECRET
 from src.bot.tg_utils import bot
+
+
 router = APIRouter(
-    prefix='/ticket',
-    tags=['Ticket']
+    prefix='/telegram',
+    tags=['Telegram']
 )
 
 @router.post("/"+BOT_SECRET)
