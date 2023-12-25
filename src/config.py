@@ -4,10 +4,7 @@ from dotenv import load_dotenv
 import os
 import sys
 from sqlalchemy import func
-from sqlalchemy.orm import mapped_column
 
-
-# sys.path.append(os.path.join(sys.path[0], 'src'))
 
 load_dotenv()
 
@@ -20,10 +17,10 @@ DB_NAME = os.environ.get('DB_NAME')
 JWT_SECRET = os.environ.get('JWT_SECRET')
 PASS_VER_SECRET = os.environ.get('PASS_VER_SECRET')
 
-timestamp = Annotated[
-    datetime.datetime,
-    mapped_column(nullable=False, server_default=func.CURRENT_TIMESTAMP()),
-]
+# timestamp = Annotated[
+#     datetime.datetime,
+#     mapped_column(nullable=False, server_default=func.CURRENT_TIMESTAMP()),
+# ]
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 BOT_SECRET = os.environ.get('BOT_SECRET')
