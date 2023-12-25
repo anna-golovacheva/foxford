@@ -23,17 +23,11 @@ async def start(msg):
 
     async with get_async_session() as session:
         stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
-
-    # query = select(operation).where(operation.c.type == operation_type)
-        result = session.execute(stmt)
+        result = await session.execute(stmt)
         print(result)
         reply_message += str(result)
-        # a1 = result.scalars().first()
-        session.commit()
-    # start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
-    # if not start_user:
-        # start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
-        # session.add(start_user)
+        await session.commit()
+
     await bot.send_message(msg.chat.id, reply_message)
 
 
@@ -128,3 +122,18 @@ async def start(msg):
 #         await message.answer(answer_ru.in_game)
 #     else:
 #         await message.answer(answer_ru.extra)
+
+
+
+
+
+    # start_user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
+    # if not start_user:
+        # start_user = User(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+        # session.add(start_user)
+
+
+            # a1 = result.scalars().first()
+
+
+        # query = select(operation).where(operation.c.type == operation_type)
