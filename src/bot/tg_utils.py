@@ -17,19 +17,19 @@ async def get_session():
 
 
 @bot.message_handler(commands=['start'])
-def start(msg):
+async def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
     stmt = Insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
     stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
-    session = get_session()
-    result = session.execute()
+    session = await get_session()
+    result = await session.execute()
     print(result)
     reply_message += str(result)
-    session.commit()
+    await session.commit()
 
-    bot.send_message(msg.chat.id, reply_message)
+    await bot.send_message(msg.chat.id, reply_message)
 
 
 
