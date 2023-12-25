@@ -1,4 +1,5 @@
 fastapi[all]
+psycopg2-binary
 databases
 sqlalchemy
 alembic
