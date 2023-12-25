@@ -2,7 +2,7 @@ import os
 from typing import AsyncGenerator
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import registry, sessionmaker, Session
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 
