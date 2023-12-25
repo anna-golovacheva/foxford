@@ -24,7 +24,7 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 # DATABASE_URL_SYNC = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-DATABASE_URL_SYNC = os.environ.get('DATABASE_URL_SYNC').replace("://", "ql://", 1)
+DATABASE_URL_SYNC = os.environ.get('DATABASE_URL').replace("://", "ql://", 1)
 engine_sync = create_engine(DATABASE_URL_SYNC)
 SessionLocalSync = sessionmaker(autocommit=False, autoflush=False, bind=engine_sync)
 
