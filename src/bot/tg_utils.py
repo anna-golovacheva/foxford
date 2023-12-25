@@ -44,7 +44,7 @@ def create_ticket(msg):
     session = get_sync_session()
     user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
     if user:
-        old_ticket = session.query(Ticket).filter(Ticket.user_id == user.id, Ticket.status == StatusType.open).first()
+        old_ticket = session.query(Ticket).filter(Ticket.client_id == user.id, Ticket.status == StatusType.open).first()
         if old_ticket:
             message = 'Предыдущий тикет еще не закрыт'
         else:
