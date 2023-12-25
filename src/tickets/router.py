@@ -126,7 +126,9 @@ async def update_ticket_status(
         query = update(Ticket).filter(Ticket.id == ticket_id).\
                                values({'status': status.value}). \
                                returning(Ticket.id, Ticket.status)
+        print(query)
         result = await session.execute(query)
+        print(result)
         await session.commit()
         values = list(result.iterator)[0]
         res = dict(zip(['id', 'status'], values))
