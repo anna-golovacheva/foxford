@@ -23,4 +23,6 @@ BOT_SECRET = os.environ.get('BOT_SECRET')
 BASE_URL = os.environ.get('BASE_URL')
 
 # plug untill picking an employee user logic is realised
-GENERAL_EMPLOYEE = os.environ.get('GENERAL_EMPLOYEE')
+GENERAL_EMPLOYEE_ID = os.environ.get('GENERAL_EMPLOYEE_ID')
+
+DEFAULT_PASS = os.environ.get('DEFAULT_PASS')
