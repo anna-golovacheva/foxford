@@ -29,7 +29,7 @@ async def start(msg):
     reply_message += str(result)
     await session.commit()
 
-    await bot.send_message(msg.chat.id, reply_message)
+    bot.send_message(msg.chat.id, reply_message)
 
 
 
