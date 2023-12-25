@@ -25,7 +25,7 @@ def start(msg):
     stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
     print(stmt)
     session = get_sync_session()
-    result = session.execute()
+    result = session.execute(stmt)
     print(result)
     reply_message += str(result)
     session.commit()
