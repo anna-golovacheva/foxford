@@ -17,12 +17,10 @@ DB_NAME = os.environ.get('DB_NAME')
 JWT_SECRET = os.environ.get('JWT_SECRET')
 PASS_VER_SECRET = os.environ.get('PASS_VER_SECRET')
 
-# timestamp = Annotated[
-#     datetime.datetime,
-#     mapped_column(nullable=False, server_default=func.CURRENT_TIMESTAMP()),
-# ]
-
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 BOT_SECRET = os.environ.get('BOT_SECRET')
 
 BASE_URL = os.environ.get('BASE_URL')
+
+# plug untill picking an employee user logic is realised
+GENERAL_EMPLOYEE = os.environ.get('GENERAL_EMPLOYEE')
