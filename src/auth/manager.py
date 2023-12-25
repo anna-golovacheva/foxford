@@ -4,7 +4,7 @@ from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
 
 from src.auth.models import User
-from src.auth.utils import CustomUserDatabase
+from src.auth.utils import get_user_db
 from src.config import PASS_VER_SECRET
 
 
@@ -40,10 +40,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
         if existing_user is not None:
             raise exceptions.UserAlreadyExists()
 
-        tg_user = await self.user_db.get(tg_id=user_create.tg_id)
-        if tg_user is not None:
-            raise exceptions.UserAlreadyExists()
-
         user_dict = (
             user_create.create_update_dict()
             if safe
@@ -58,8 +54,6 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
         return created_user
 
-# async def get_user_manager(user_db=Depends(get_user_db)):
-#     yield UserManager(user_db)
-
 async def get_user_manager(user_db=Depends(get_user_db)):
-    yield UserManager(CustomUserDatabase(User, user_db))
+    yield UserManager(user_db)
+    
