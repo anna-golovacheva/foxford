@@ -21,14 +21,18 @@ def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
+
     stmt = Insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
-    stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
+    # stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
     print(stmt)
     session = get_sync_session()
-    result = session.execute(stmt)
-    print(result)
-    reply_message += str(result)
-    session.commit()
+    start_user = session.query(User).filter(tg_id=msg.from_user.id).first()
+    print(start_user)
+    if not start_user:
+        result = session.execute(stmt)
+        print(result)
+        reply_message += str(result)
+        session.commit()
 
     bot.send_message(msg.chat.id, reply_message)
 
