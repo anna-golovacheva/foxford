@@ -17,7 +17,7 @@ metadata = Base.metadata
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 engine = create_async_engine(DATABASE_URL)
-AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
+AsyncSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession)
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
