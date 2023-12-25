@@ -1,5 +1,36 @@
+# import telebot
+# from sqlalchemy import select, insert
+# from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
+# from src.user.models import User
+# from src.database import get_async_session
+
+# url = BASE_URL + BOT_SECRET
+
+# bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
+# bot.remove_webhook()
+# bot.set_webhook(url=url)
+
+
+# @bot.message_handler(commands=['start'])
+# async def start(msg):
+#     reply_message = 'Привет! С помощью этого бота вы можете '\
+#               'отправить сообщение-тикет. Просто напишите '\
+#               'сообщение.'
+#     stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+
+#     async with get_async_session() as session:
+#         stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
+#         result = await session.execute(stmt)
+#         print(result)
+#         reply_message += str(result)
+#         await session.commit()
+
+#     await bot.send_message(msg.chat.id, reply_message)
+
+
 import telebot
-from sqlalchemy import select, insert
+import asyncio
+from sqlalchemy import insert
 from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
 from src.user.models import User
 from src.database import get_async_session
@@ -10,25 +41,26 @@ bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 bot.remove_webhook()
 bot.set_webhook(url=url)
 
-
-
-
-
 @bot.message_handler(commands=['start'])
-async def start(msg):
+def start(msg):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
-    stmt = insert('src.user.models.User').values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
+    stmt = insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
 
-    async with get_async_session() as session:
-        stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
-        result = await session.execute(stmt)
-        print(result)
-        reply_message += str(result)
-        await session.commit()
+    async def process_start():
+        async with get_async_session() as session:
+            stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
+            result = await session.execute(stmt)
+            print(result)
+            await session.commit()
 
-    await bot.send_message(msg.chat.id, reply_message)
+        await bot.send_message(msg.chat.id, reply_message)
+
+    loop.run_until_complete(process_start())
 
 
 # @dp.message(Command(commands='help'))
