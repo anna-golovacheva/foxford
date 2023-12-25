@@ -44,11 +44,11 @@ def create_ticket(msg):
     session = get_sync_session()
     user = session.query(User).filter(User.tg_id == msg.from_user.id).first()
     if user:
-        old_ticket = session.query(Ticket).filter(Ticket.client_id == user.id, Ticket.status == StatusType.open).first()
+        old_ticket = session.query(Ticket).filter(Ticket.client_id == user.id, Ticket.status == str(StatusType.open)).first()
         if old_ticket:
             message = 'Предыдущий тикет еще не закрыт'
         else:
-            stmt = Insert(Ticket).values(client_id=user.id, status=StatusType.open, employee_id=123123, message=msg.text)
+            stmt = Insert(Ticket).values(client_id=user.id, status=str(StatusType.open), employee_id=123123, message=msg.text)
             print(stmt)
             message = f'Тикет открыт .. {message.text}'
             result = session.execute(stmt)
