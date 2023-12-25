@@ -2,7 +2,7 @@ import os
 from typing import AsyncGenerator
 from sqlalchemy import MetaData, create_engine
 from sqlalchemy.orm import registry, sessionmaker, Session
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
 
@@ -17,7 +17,7 @@ metadata = Base.metadata
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 engine = create_async_engine(DATABASE_URL)
-AsyncSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession)
+AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with AsyncSessionLocal() as session:
