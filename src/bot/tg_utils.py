@@ -2,7 +2,7 @@ import telebot
 from sqlalchemy import select, insert
 from src.config import BOT_TOKEN, BOT_SECRET, BASE_URL
 from src.user.models import User
-from src.database import get_async_session
+from src.database import get_sync_session
 from sqlalchemy.dialects.postgresql import Insert
 url = BASE_URL + BOT_SECRET
 
@@ -11,23 +11,24 @@ bot.remove_webhook()
 bot.set_webhook(url=url)
 
 
-async def get_session():
-    s = await anext(get_async_session())
-    return s
+# async def get_session():
+#     s = await anext(get_async_session())
+#     return s
 
 
 @bot.message_handler(commands=['start'])
-async def start(msg):
+def start(msg):
     reply_message = 'Привет! С помощью этого бота вы можете '\
               'отправить сообщение-тикет. Просто напишите '\
               'сообщение.'
     stmt = Insert(User).values(tg_id=msg.from_user.id, username=msg.from_user.username, hashed_password='123123')
     stmt = stmt.on_conflict_do_nothing(constraint="tg_id")
-    session = await get_session()
-    result = await session.execute()
+    print(stmt)
+    session = get_sync_session()
+    result = session.execute()
     print(result)
     reply_message += str(result)
-    await session.commit()
+    session.commit()
 
     bot.send_message(msg.chat.id, reply_message)
 

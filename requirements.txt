@@ -4,6 +4,6 @@ databases
 sqlalchemy
 alembic
 fastapi-users[sqlalchemy]
-asyncpg
+# asyncpg
 telebot
 pyTelegramBotAPI
