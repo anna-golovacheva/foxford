@@ -5,7 +5,6 @@ from src.bot.tg_utils import bot
 
 
 router = APIRouter(
-    prefix='/telegram',
     tags=['Telegram']
 )
 
