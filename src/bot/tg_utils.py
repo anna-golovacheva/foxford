@@ -48,7 +48,7 @@ def create_ticket(msg):
         if old_ticket:
             message = 'Предыдущий тикет еще не закрыт'
         else:
-            stmt = Insert(Ticket).values(client_id=user.id, status=str(StatusType.open), employee_id=123123, message=msg.text)
+            stmt = Insert(Ticket).values(client_id=user.id, status=str(StatusType.open), employee_id=2, message=msg.text)
             print(stmt)
             message = f'Тикет открыт .. {msg.text}'
             result = session.execute(stmt)
